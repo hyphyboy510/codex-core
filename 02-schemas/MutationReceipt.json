@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex-core.local/schemas/MutationReceipt.json",
+  "title": "MutationReceipt",
+  "description": "Verifiable dual-read receipt issued by Tlalli-Keeton after a mutation passes double-audit. Human sees form; system sees state.",
+  "type": "object",
+  "required": ["receiptId", "timestamp", "mutationType", "status", "structuralAudit", "stabilityAudit", "artifactRef", "humanSummary", "machineState"],
+  "properties": {
+    "receiptId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this receipt"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp of issuance"
+    },
+    "mutationType": {
+      "type": "string",
+      "enum": ["idea-accumulation", "schema-extension", "memory-write", "entity-state-change", "safety-gate-update"],
+      "description": "Category of the approved mutation"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["approved", "rejected", "parked-for-refinement"],
+      "description": "Final decision after double-audit"
+    },
+    "structuralAudit": {
+      "type": "object",
+      "required": ["passed", "score", "notes"],
+      "properties": {
+        "passed": { "type": "boolean" },
+        "score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "notes": { "type": "string" }
+      }
+    },
+    "stabilityAudit": {
+      "type": "object",
+      "required": ["passed", "riskLevel", "notes"],
+      "properties": {
+        "passed": { "type": "boolean" },
+        "riskLevel": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+        "notes": { "type": "string" }
+      }
+    },
+    "artifactRef": {
+      "type": "string",
+      "description": "Reference to the dual-read artifact (local path or R2 key)"
+    },
+    "humanSummary": {
+      "type": "string",
+      "description": "Human-readable narrative of what changed and why"
+    },
+    "machineState": {
+      "type": "object",
+      "description": "Machine-readable delta and new baseline state",
+      "additionalProperties": true
+    },
+    "issuedBy": {
+      "type": "string",
+      "const": "Tlalli-Keeton",
+      "default": "Tlalli-Keeton"
+    }
+  },
+  "additionalProperties": false
+}
