@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex-core.local/schemas/RiskGateDecision.json",
+  "title": "RiskGateDecision",
+  "description": "Output of the Local Smart Router risk gate and the double-audit process. Must pass before any mutation is applied.",
+  "type": "object",
+  "required": ["gateId", "timestamp", "proposedMutation", "structuralResult", "stabilityResult", "finalDecision", "reason"],
+  "properties": {
+    "gateId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "proposedMutation": {
+      "type": "object",
+      "required": ["type", "summary"],
+      "properties": {
+        "type": { "type": "string" },
+        "summary": { "type": "string" },
+        "payload": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "structuralResult": {
+      "type": "object",
+      "required": ["passed", "score"],
+      "properties": {
+        "passed": { "type": "boolean" },
+        "score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "violations": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "stabilityResult": {
+      "type": "object",
+      "required": ["passed", "riskLevel"],
+      "properties": {
+        "passed": { "type": "boolean" },
+        "riskLevel": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"]
+        },
+        "bottlenecks": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "finalDecision": {
+      "type": "string",
+      "enum": ["allow", "deny", "park-for-refinement"]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "networkContext": {
+      "type": "object",
+      "properties": {
+        "online": { "type": "boolean" },
+        "batteryLevel": { "type": "number" },
+        "complexityScore": { "type": "number" }
+      }
+    }
+  },
+  "additionalProperties": false
+}
