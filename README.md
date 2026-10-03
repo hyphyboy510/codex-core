@@ -2,7 +2,7 @@
 
 **Designator:** #CODEX-CORE  
 **Version:** 0.1.0-draft  
-**Status:** Modular Foundation — Implementation Deferred
+**Status:** Schemas live · Receipt issuer active · Ready for D1 bind + deploy
 
 Dual-mode (on/offline) AI system with:
 
@@ -16,8 +16,9 @@ Dual-mode (on/offline) AI system with:
 ## Quick Links
 
 - [Full Architecture](01-overview/ARCHITECTURE.md)
-- Cloudflare Workers deployment target (coming)
-- App shell (Presentation Layer)
+- [JSON Schemas](02-schemas/) — MutationReceipt · DualReadArtifact · RiskGateDecision
+- [Safety / Double-Audit](04-safety/)
+- [Cloudflare App](app/) + [Deploy Guide](app/DEPLOY.md)
 
 ## Core Principles
 
@@ -28,20 +29,35 @@ Dual-mode (on/offline) AI system with:
 5. Baseline preservation — non-override protocol
 6. Receipt as contract
 
+## What’s Live Right Now
+
+- Three core JSON Schemas committed
+- Tlalli-Keeton Durable Object issues real MutationReceipts after double-audit
+- `POST /entity/propose` endpoint ready
+- D1 schema + clear bind instructions in `app/DEPLOY.md`
+- Local dev + edge deploy path documented
+
 ## Structure
 
 ```
 01-overview/     → Architecture + system context
-02-schemas/      → JSON Schemas for all core objects
+02-schemas/      → JSON Schemas (live)
 03-modules/      → Individual module specifications
 04-safety/       → Audit, risk gates, test protocols
 05-entity/       → Tlalli-Keeton definition & behavior
 06-integration/  → How layers connect + extension points
-app/             → Presentation / UI Layer (Cloudflare + mobile/web)
+app/             → Cloudflare Workers + Durable Objects
 ```
 
-## Cloudflare Deployment
+## Next 60 seconds
 
-This repo is designed to deploy to Cloudflare Workers + Durable Objects + D1 / Vectorize for the online path, while remaining fully functional offline via embedded SLM + local SQLite-vec + image metadata.
+```bash
+cd app
+npm install
+npx wrangler login
+npx wrangler d1 create codex-delta-ledger   # paste ID into wrangler.toml
+npx wrangler d1 execute codex-delta-ledger --file=./d1-schema.sql
+npx wrangler dev
+```
 
-See `06-integration/` (forthcoming) for the exact binding contracts.
+Then hit `POST /entity/propose` and watch Tlalli-Keeton issue a receipt.
