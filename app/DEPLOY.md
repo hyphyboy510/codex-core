@@ -31,7 +31,7 @@ npx wrangler dev
 npx wrangler deploy
 ```
 
-## Test the receipt issuer
+## Test the receipt issuer + D1 write
 
 ```bash
 curl -X POST http://localhost:8787/entity/propose \
@@ -43,10 +43,13 @@ curl -X POST http://localhost:8787/entity/propose \
   }'
 ```
 
-You should receive a full MutationReceipt with structural + stability audit results.
+You should receive a full MutationReceipt.  
+Look at the new `ledger` field:
+- `d1Written: true` → successfully persisted to Delta Ledger
+- `d1Written: false` + note about unbound → still living safely in the Durable Object until you bind the real database_id
 
-## Current status
-- Schemas: live in /02-schemas
-- Receipt issuer: wired and double-audit enforced
-- D1: ready for your database_id
-- Offline path: still deferred (as designed)
+## Current status (Option 2 complete)
+- Schemas: live
+- Receipt issuer: wired + double-audit enforced
+- D1 write path: implemented and graceful
+- Offline dual-read viewer: refined and parked (ready for next activation)
