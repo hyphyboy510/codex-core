@@ -1,0 +1,28 @@
+name = "codex-core"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+# Durable Objects for Tlalli-Keeton and per-user memory
+[[durable_objects.bindings]]
+name = "TLALLI_KEETON"
+class_name = "TlalliKeeton"
+
+[[durable_objects.bindings]]
+name = "USER_MEMORY"
+class_name = "UserMemory"
+
+# D1 for structured long-term memory (Delta Ledger)
+[[d1_databases]]
+binding = "DELTA_LEDGER"
+database_name = "codex-delta-ledger"
+database_id = "pending"
+
+# Vectorize for semantic memory (optional online enrichment)
+# [[vectorize]]
+# binding = "VECTOR_MEMORY"
+# index_name = "codex-memory"
+
+# R2 for dual-read artifacts / image metadata
+# [[r2_buckets]]
+# binding = "ARTIFACTS"
+# bucket_name = "codex-artifacts"
