@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex-core.local/schemas/DualReadArtifact.json",
+  "title": "DualReadArtifact",
+  "description": "Portable artifact that is both human-readable and machine-readable. Human sees form; system sees state. Survives offline.",
+  "type": "object",
+  "required": ["artifactId", "createdAt", "format", "humanForm", "machineState", "contentHash"],
+  "properties": {
+    "artifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "format": {
+      "type": "string",
+      "enum": ["html-dual", "markdown-dual", "json-with-preview", "image-metadata"],
+      "description": "How the dual layers are packaged"
+    },
+    "humanForm": {
+      "type": "string",
+      "description": "Narrative, visual, or structured text intended for human eyes"
+    },
+    "machineState": {
+      "type": "object",
+      "description": "Canonical state, deltas, and links for the system",
+      "additionalProperties": true
+    },
+    "contentHash": {
+      "type": "string",
+      "description": "SHA-256 of the combined human + machine payload for integrity"
+    },
+    "receiptId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Optional link back to the MutationReceipt that produced this artifact"
+    },
+    "offlineCapable": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "additionalProperties": false
+}
