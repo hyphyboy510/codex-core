@@ -1,6 +1,6 @@
 name = "codex-core"
 main = "src/index.ts"
-compatibility_date = "2026-09-01"
+compatibility_date = "2026-11-25"
 
 # Durable Objects for Tlalli-Keeton and per-user memory
 [[durable_objects.bindings]]
@@ -21,7 +21,7 @@ new_classes = ["TlalliKeeton", "UserMemory"]
 [[d1_databases]]
 binding = "DELTA_LEDGER"
 database_name = "codex-delta-ledger"
-database_id = "REPLACE_WITH_REAL_ID"   # ← run `npx wrangler d1 create codex-delta-ledger`
+database_id = "70da63f1-f9a0-4dfc-8fd8-985a32e778cb"
 
 # Optional later:
 # [[vectorize]]

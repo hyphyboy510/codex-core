@@ -53,3 +53,10 @@ Look at the new `ledger` field:
 - Receipt issuer: wired + double-audit enforced
 - D1 write path: implemented and graceful
 - Offline dual-read viewer: refined and parked (ready for next activation)
+
+
+## Automatic deploy
+
+Pushes to `main` deploy the Worker in `app/` through GitHub Actions (`.github/workflows/deploy.yml`) using `cloudflare/wrangler-action`. The workflow needs two repository secrets: `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. No secrets are stored in this repo.
+
+The D1 database `codex-delta-ledger` (database_id `70da63f1-f9a0-4dfc-8fd8-985a32e778cb`) has been created and the schema in `d1-schema.sql` applied.

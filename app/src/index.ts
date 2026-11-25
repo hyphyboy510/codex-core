@@ -33,6 +33,13 @@ function generateId(): string {
   return crypto.randomUUID();
 }
 
+type RiskLevel = "low" | "high" | "critical";
+
+function assessRiskLevel(mutationType: string): RiskLevel {
+  if (mutationType === "safety-gate-update") return "high";
+  return "low";
+}
+
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
@@ -285,7 +292,7 @@ export class TlalliKeeton {
         ? "Structure valid. Summary present. Type recognized."
         : "Structural failure: summary too short or missing.";
 
-      const riskLevel = mutationType === "safety-gate-update" ? "high" : "low";
+      const riskLevel = assessRiskLevel(mutationType);
       const stabilityPassed = riskLevel !== "critical";
       const stabilityNotes =
         riskLevel === "low"
